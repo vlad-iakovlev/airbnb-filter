@@ -1,12 +1,15 @@
 import { produce } from "immer";
 import queryString from "query-string";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 import amenities from "../amenities.json";
+
+const sortedAmenities = amenities.sort((a, b) => a.name.localeCompare(b.name));
 
 const App = () => {
   const [currentTab, setCurrentTab] = useState();
   const [parsedUrl, setParsedUrl] = useState();
+  const [amenitiesFilter, setAmenitiesFilter] = useState("");
 
   useEffect(() => {
     void (async () => {
@@ -25,7 +28,19 @@ const App = () => {
     setParsedUrl(queryString.parseUrl(currentTab.url));
   }, [currentTab]);
 
-  const handleAmenityChange = useCallback((event) => {
+  const visibleAmenities = useMemo(() => {
+    if (!amenitiesFilter) return sortedAmenities;
+
+    return sortedAmenities.filter(({ name }) =>
+      name.toLowerCase().includes(amenitiesFilter.toLowerCase()),
+    );
+  }, [amenitiesFilter]);
+
+  const handleAmenityInputChange = useCallback((event) => {
+    setAmenitiesFilter(event.currentTarget.value);
+  }, []);
+
+  const handleAmenityCheckboxChange = useCallback((event) => {
     const id = event.currentTarget.dataset.id;
 
     setParsedUrl(
@@ -64,15 +79,22 @@ const App = () => {
     <div>
       <h2>Amenities</h2>
 
+      <input
+        type="text"
+        placeholder="Filter amenities"
+        value={amenitiesFilter}
+        onChange={handleAmenityInputChange}
+      />
+
       <ul>
-        {amenities.map(({ id, name }) => (
+        {visibleAmenities.map(({ id, name }) => (
           <li key={id}>
             <label>
               <input
                 data-id={id}
                 type="checkbox"
                 checked={parsedUrl?.query["amenities[]"]?.includes(id)}
-                onChange={handleAmenityChange}
+                onChange={handleAmenityCheckboxChange}
               />
 
               {name}
