@@ -1,6 +1,6 @@
 # Airbnb Filters
 
-Chrome extension with advanced amenities filters for Airbnb
+Chrome extension with advanced Airbnb filters
 
 ## Deployment
 

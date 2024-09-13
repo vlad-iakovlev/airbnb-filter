@@ -6,7 +6,6 @@
     "build": "node esbuild.mjs build",
     "prettier": "prettier --write ."
   },
-  "dependencies": {},
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "dotenv": "^16.4.5",

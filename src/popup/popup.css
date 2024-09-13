@@ -1,0 +1,17 @@
+body {
+  margin: 0.5rem;
+  width: 20rem;
+}
+
+.screen {
+  display: none;
+
+  &[data-active="true"] {
+    display: block;
+  }
+}
+
+ul {
+  padding-left: 0;
+  list-style: none;
+}

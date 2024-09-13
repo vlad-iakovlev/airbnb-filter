@@ -5,9 +5,10 @@ import { copy } from "esbuild-plugin-copy";
 
 const options = {
   bundle: true,
-  entryPoints: ["src/app.mjs", "src/styles.css"],
+  entryPoints: ["src/popup/popup.mjs", "src/popup/popup.css"],
   format: "esm",
   minify: true,
+  outbase: "src",
   outdir: "dist",
   platform: "browser",
   plugins: [
