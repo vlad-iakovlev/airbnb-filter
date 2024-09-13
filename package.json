@@ -1,0 +1,32 @@
+{
+  "name": "airbnb-filters",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node esbuild.mjs build",
+    "prettier": "prettier --write ."
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+    "dotenv": "^16.4.5",
+    "esbuild": "^0.23.1",
+    "esbuild-plugin-clean": "^1.0.1",
+    "esbuild-plugin-copy": "^2.1.1",
+    "postcss": "^8.4.45",
+    "prettier": "^3.3.3",
+    "prettier-plugin-css-order": "^2.1.2"
+  },
+  "prettier": {
+    "plugins": [
+      "@trivago/prettier-plugin-sort-imports",
+      "prettier-plugin-css-order"
+    ],
+    "importOrder": [
+      "^\\.\\./",
+      "^\\./"
+    ],
+    "importOrderSortSpecifiers": true,
+    "cssDeclarationSorterKeepOverrides": false
+  }
+}

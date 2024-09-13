@@ -1,0 +1,9 @@
+{
+  "manifest_version": 3,
+  "name": "Airbnb Filters",
+  "description": "Advanced amenities filters for Airbnb",
+  "version": "0.0.0",
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
