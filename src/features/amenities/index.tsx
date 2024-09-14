@@ -12,22 +12,22 @@ interface AmenitiesProps {
 }
 
 export const Amenities = ({ active, onActiveChange }: AmenitiesProps) => {
-  const [filter, setFilter] = useState("");
+  const [search, setSearch] = useState("");
 
-  const handleFilterChange = useCallback(
+  const handleSearchChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      setFilter(event.currentTarget.value);
+      setSearch(event.currentTarget.value);
     },
     [],
   );
 
   const visibleAmenities = useMemo(() => {
-    if (!filter) return sortedAmenities;
+    if (!search) return sortedAmenities;
 
     return sortedAmenities.filter(({ name }) =>
-      name.toLowerCase().includes(filter.toLowerCase()),
+      name.toLowerCase().includes(search.toLowerCase()),
     );
-  }, [filter]);
+  }, [search]);
 
   const activeMap = useMemo(
     () => Object.fromEntries(active.map((id) => [id, true])),
@@ -50,9 +50,9 @@ export const Amenities = ({ active, onActiveChange }: AmenitiesProps) => {
 
       <Input
         type="text"
-        placeholder="Filter amenities"
-        value={filter}
-        onChange={handleFilterChange}
+        placeholder="Search"
+        value={search}
+        onChange={handleSearchChange}
       />
 
       <Section.List>
