@@ -63,8 +63,9 @@
   * {
     @apply min-w-0 border-border;
   }
+
   body {
-    @apply bg-background text-base text-foreground;
+    @apply w-80 bg-background text-base text-foreground;
     font-feature-settings:
       "rlig" 1,
       "calt" 1;
