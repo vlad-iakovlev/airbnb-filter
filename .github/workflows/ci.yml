@@ -13,6 +13,7 @@ jobs:
     strategy:
       matrix:
         check:
+          - compile
           - lint:ci
           - prettier:ci
     name: ${{ matrix.check }}

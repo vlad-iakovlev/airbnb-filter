@@ -1,0 +1,15 @@
+pre-commit:
+  commands:
+    compile:
+      run: npm run compile
+    lint:
+      glob: "*.{js,ts,tsx}"
+      run: npx eslint --fix {staged_files}
+      stage_fixed: true
+    prettier:
+      exclude:
+        - .eslintignore
+        - .gitignore
+        - .prettierignore
+      run: npx prettier --write {staged_files}
+      stage_fixed: true

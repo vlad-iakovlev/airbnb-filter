@@ -1,15 +1,16 @@
-import { produce } from "immer";
+import assert from "assert";
 import queryString from "query-string";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 import amenities from "../amenities.json";
+import { normalizeQueryParameter } from "../utils/normalizeQueryParameter.js";
 
 const sortedAmenities = amenities.sort((a, b) => a.name.localeCompare(b.name));
 
 const App = () => {
-  const [currentTab, setCurrentTab] = useState();
-  const [parsedUrl, setParsedUrl] = useState();
+  const [currentTab, setCurrentTab] = useState<chrome.tabs.Tab>();
   const [amenitiesFilter, setAmenitiesFilter] = useState("");
+  const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
 
   useEffect(() => {
     void (async () => {
@@ -18,15 +19,23 @@ const App = () => {
         lastFocusedWindow: true,
       });
 
-      setCurrentTab(tabs[0]);
+      setCurrentTab(tabs?.[0]);
     })();
   }, []);
 
-  useEffect(() => {
-    if (!currentTab) return;
+  const parsedUrl = useMemo(() => {
+    if (!currentTab?.url) return;
 
-    setParsedUrl(queryString.parseUrl(currentTab.url));
+    return queryString.parseUrl(currentTab.url);
   }, [currentTab]);
+
+  useEffect(() => {
+    if (!parsedUrl) return;
+
+    setSelectedAmenities(
+      normalizeQueryParameter(parsedUrl.query["amenities[]"]),
+    );
+  }, [parsedUrl]);
 
   const visibleAmenities = useMemo(() => {
     if (!amenitiesFilter) return sortedAmenities;
@@ -36,40 +45,40 @@ const App = () => {
     );
   }, [amenitiesFilter]);
 
-  const handleAmenityInputChange = useCallback((event) => {
-    setAmenitiesFilter(event.currentTarget.value);
-  }, []);
+  const handleAmenityInputChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setAmenitiesFilter(event.currentTarget.value);
+    },
+    [],
+  );
 
-  const handleAmenityCheckboxChange = useCallback((event) => {
-    const id = event.currentTarget.dataset.id;
+  const handleAmenityCheckboxChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const id = event.currentTarget.dataset.id;
+      assert(id, "Amenity id not found");
 
-    setParsedUrl(
-      produce((draft) => {
-        if (!draft) return;
-
-        if (!draft.query["amenities[]"]) {
-          draft.query["amenities[]"] = [id];
-          return;
-        }
-
-        if (draft.query["amenities[]"].includes(id)) {
-          draft.query["amenities[]"] = draft.query["amenities[]"].filter(
-            (amenity) => amenity !== id,
-          );
-        } else {
-          draft.query["amenities[]"].push(id);
-        }
-      }),
-    );
-  }, []);
+      setSelectedAmenities((prev) =>
+        prev.includes(id)
+          ? prev.filter((amenity) => amenity !== id)
+          : [...prev, id],
+      );
+    },
+    [],
+  );
 
   const handleApplyClick = useCallback(() => {
-    if (!currentTab || !parsedUrl) return;
+    if (!currentTab?.id || !parsedUrl) return;
 
-    chrome.tabs.update(currentTab.id, {
-      url: queryString.stringifyUrl(parsedUrl),
+    void chrome.tabs.update(currentTab.id, {
+      url: queryString.stringifyUrl({
+        ...parsedUrl,
+        query: {
+          ...parsedUrl.query,
+          "amenities[]": selectedAmenities,
+        },
+      }),
     });
-  }, [currentTab, parsedUrl]);
+  }, [currentTab, parsedUrl, selectedAmenities]);
 
   if (!parsedUrl?.url.startsWith("https://www.airbnb.com/")) {
     return <h2>Open Airbnb search page to continue</h2>;
@@ -93,7 +102,7 @@ const App = () => {
               <input
                 data-id={id}
                 type="checkbox"
-                checked={parsedUrl?.query["amenities[]"]?.includes(id)}
+                checked={selectedAmenities.includes(id)}
                 onChange={handleAmenityCheckboxChange}
               />
 
@@ -110,5 +119,7 @@ const App = () => {
   );
 };
 
-const root = createRoot(document.getElementById("root"));
+const rootEl = document.getElementById("root");
+assert(rootEl, "Root element not found");
+const root = createRoot(rootEl);
 root.render(<App />);

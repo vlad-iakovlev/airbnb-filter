@@ -2,57 +2,66 @@
   "name": "airbnb-filters",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "build": "node esbuild.mjs build",
-    "lint": "eslint . --ext .js,.mjs,.jsx",
+    "build": "tsx esbuild.ts build",
+    "compile": "tsc",
+    "lint": "eslint .",
     "lint:ci": "DEBUG=eslint:cli-engine eslint .",
     "prettier": "prettier --write .",
     "prettier:ci": "prettier --check ."
   },
   "dependencies": {
-    "immer": "^10.1.1",
     "query-string": "^9.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+    "@types/chrome": "^0.0.271",
+    "@types/node": "^18.19.50",
+    "@types/react": "^18.3.5",
+    "@types/react-dom": "^18.3.0",
+    "@typescript-eslint/eslint-plugin": "^8.5.0",
     "dotenv": "^16.4.5",
     "esbuild": "^0.23.1",
     "esbuild-plugin-clean": "^1.0.1",
     "esbuild-plugin-copy": "^2.1.1",
+    "esbuild-plugin-polyfill-node": "^0.3.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react": "^7.36.1",
     "eslint-plugin-react-hooks": "^4.6.2",
+    "lefthook": "^1.7.15",
     "postcss": "^8.4.45",
     "prettier": "^3.3.3",
-    "prettier-plugin-css-order": "^2.1.2"
+    "prettier-plugin-css-order": "^2.1.2",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2"
   },
   "eslintConfig": {
+    "parserOptions": {
+      "project": "./tsconfig.json"
+    },
     "extends": [
       "eslint:recommended",
       "plugin:react/recommended",
       "plugin:react-hooks/recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:@typescript-eslint/recommended-requiring-type-checking",
+      "plugin:@typescript-eslint/strict",
       "prettier"
     ],
-    "parserOptions": {
-      "ecmaVersion": "latest",
-      "sourceType": "module"
-    },
-    "env": {
-      "browser": true,
-      "node": true
-    },
-    "globals": {
-      "chrome": "readonly"
-    },
     "settings": {
       "react": {
         "version": "detect"
       }
     },
     "rules": {
+      "arrow-body-style": [
+        "error",
+        "as-needed"
+      ],
       "react/react-in-jsx-scope": "off"
     }
   },
