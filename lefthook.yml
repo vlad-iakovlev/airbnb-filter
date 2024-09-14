@@ -7,10 +7,6 @@ pre-commit:
       run: npx eslint --fix {staged_files}
       stage_fixed: true
     prettier:
-      exclude:
-        - .eslintignore
-        - .gitignore
-        - .prettierignore
-        - LICENSE
+      glob: "*.{js,ts,tsx,json,yml,yaml,css,html,md}"
       run: npx prettier --write {staged_files}
       stage_fixed: true
