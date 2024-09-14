@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/common/Button.jsx";
-import { Portal } from "@/common/Portal.jsx";
 import { Amenities } from "@/features/amenities/index.jsx";
 import { normalizeQueryParameter } from "@/utils/normalizeQueryParameter.js";
 import { usePageUrl } from "./usePageUrl.js";
@@ -43,27 +42,33 @@ export const Popup = () => {
   }, [activeAmenities, pageUrl, setPageUrl]);
 
   return (
-    <div className="flex w-80 flex-col gap-6 p-4">
-      {isAirbnbPage ? (
-        <>
-          <Amenities
-            active={activeAmenities}
-            onActiveChange={handleActiveAmenitiesChange}
-          />
+    <>
+      <div className="sticky inset-0 bottom-auto border-b bg-background p-4">
+        <h2 className="text-xl font-semibold leading-tight tracking-tight">
+          Airbnb Filters
+        </h2>
+      </div>
 
-          {hasChanges && (
-            <Portal>
-              <div className="sticky inset-0 top-auto border-t bg-background p-4">
-                <Button className="w-full" onClick={handleApplyClick}>
-                  Apply
-                </Button>
-              </div>
-            </Portal>
-          )}
-        </>
-      ) : (
-        "Open Airbnb search page to continue"
+      <div className="flex w-80 flex-col gap-6 p-4">
+        {isAirbnbPage ? (
+          <>
+            <Amenities
+              active={activeAmenities}
+              onActiveChange={handleActiveAmenitiesChange}
+            />
+          </>
+        ) : (
+          "Open Airbnb search page to continue"
+        )}
+      </div>
+
+      {isAirbnbPage && hasChanges && (
+        <div className="sticky inset-0 top-auto border-t bg-background p-4">
+          <Button className="w-full" onClick={handleApplyClick}>
+            Apply
+          </Button>
+        </div>
       )}
-    </div>
+    </>
   );
 };
