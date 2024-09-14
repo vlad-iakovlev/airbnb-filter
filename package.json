@@ -13,6 +13,8 @@
     "prettier:ci": "prettier --check ."
   },
   "dependencies": {
+    "@radix-ui/react-checkbox": "^1.1.1",
+    "lucide-react": "^0.441.0",
     "query-string": "^9.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -64,10 +66,12 @@
       }
     },
     "rules": {
+      "@typescript-eslint/no-empty-object-type": "off",
       "arrow-body-style": [
         "error",
         "as-needed"
       ],
+      "react/prop-types": "off",
       "react/react-in-jsx-scope": "off"
     }
   },
