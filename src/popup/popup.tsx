@@ -6,6 +6,7 @@ import amenities from "../amenities.json";
 import { Button } from "../common/Button.jsx";
 import { Checkbox } from "../common/Checkbox.jsx";
 import { Input } from "../common/Input.jsx";
+import { Label } from "../common/Label.jsx";
 import { Portal } from "../common/Portal.jsx";
 import "../styles.css";
 import { normalizeQueryParameter } from "../utils/normalizeQueryParameter.js";
@@ -118,12 +119,10 @@ const App = () => {
                   checked={selectedAmenities.includes(id)}
                   onCheckedChange={() => handleAmenityCheckboxChange(id)}
                 />
-                <label
-                  className="flex-1 truncate text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  htmlFor={`amenities-${id}`}
-                >
+
+                <Label className="flex-1 truncate" htmlFor={`amenities-${id}`}>
                   {name}
-                </label>
+                </Label>
               </div>
             </li>
           ))}
