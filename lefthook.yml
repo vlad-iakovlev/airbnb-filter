@@ -11,5 +11,6 @@ pre-commit:
         - .eslintignore
         - .gitignore
         - .prettierignore
+        - LICENSE
       run: npx prettier --write {staged_files}
       stage_fixed: true
