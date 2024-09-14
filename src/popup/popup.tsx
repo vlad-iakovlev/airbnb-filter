@@ -85,6 +85,8 @@ const App = () => {
         },
       }),
     });
+
+    window.close();
   }, [currentTab, parsedUrl, selectedAmenities]);
 
   if (!parsedUrl?.url.startsWith("https://www.airbnb.com/")) {
