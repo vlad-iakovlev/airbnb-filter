@@ -1,3 +1,4 @@
+import { FilterIcon } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/common/Button.jsx";
 import { Amenities } from "@/features/amenities/index.jsx";
@@ -43,8 +44,10 @@ export const Popup = () => {
 
   return (
     <>
-      <div className="sticky inset-0 bottom-auto border-b bg-background p-4">
-        <h2 className="text-xl font-semibold leading-tight tracking-tight">
+      <div className="sticky inset-0 bottom-auto flex items-center gap-2 border-b bg-background p-4">
+        <FilterIcon className="h-6 w-6 flex-none text-primary" />
+
+        <h2 className="flex-1 truncate text-xl font-semibold leading-tight tracking-tight">
           Airbnb Filters
         </h2>
       </div>

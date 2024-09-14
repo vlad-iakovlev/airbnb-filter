@@ -1,5 +1,5 @@
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
-import { Check } from "lucide-react";
+import { CheckIcon } from "lucide-react";
 import { forwardRef } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -17,7 +17,7 @@ export const Checkbox = forwardRef<
       {...props}
     >
       <CheckboxPrimitive.Indicator className="flex items-center justify-center text-current">
-        <Check className="h-4 w-4" />
+        <CheckIcon className="h-4 w-4" />
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>
   );
