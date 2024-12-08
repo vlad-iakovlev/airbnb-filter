@@ -16,7 +16,7 @@
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.1.2",
     "@radix-ui/react-label": "^2.1.0",
-    "lucide-react": "^0.460.0",
+    "lucide-react": "^0.468.0",
     "query-string": "^9.1.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
