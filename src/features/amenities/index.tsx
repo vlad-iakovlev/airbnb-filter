@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
-import amenities from "@/amenities.json";
+import amenities from "@/amenities.json" with { type: "json" };
 import { Input } from "@/common/Input.jsx";
 import { Section } from "@/entities/section/index.jsx";
 import { AmenitiesAmenity } from "./Amenity.jsx";
